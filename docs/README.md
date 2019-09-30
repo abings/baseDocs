@@ -1,3 +1,3 @@
 # 拓讯前端基础库
 
-> An awesome project.
+> 欢迎使用
