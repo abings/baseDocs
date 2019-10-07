@@ -55,7 +55,38 @@
           return this.origin.code.apply(this, arguments);
         }
       }
-    }
+    },
+    plugins: [
+      function(hook, vm) {
+        hook.doneEach(function() {
+          var sidebarLiEls = document.querySelectorAll('.sidebar-nav li')
+          sidebarLiEls.forEach(function(el) {
+            el.style.cursor = 'pointer'
+            el.addEventListener('click', function(e) {
+              e.stopPropagation()
+              clearActiveClass()
+              el.classList.add('active')
+              var targetEl = e.target.children[0] || e.target.nextElementSibling
+              if (!targetEl) return
+              if (targetEl.nodeName.toLowerCase() !== 'ul') return
+              if (targetEl.style.display === 'none') {
+                targetEl.style.display = 'block'
+              } else {
+                targetEl.style.display = 'none'
+              }
+            }, false)
+          })
+
+          function clearActiveClass() {
+            sidebarLiEls.forEach(function(el) {
+              if (el.classList.contains('active')) {
+                el.classList.remove('active')
+              }
+            })
+          }
+        })
+      }
+    ]
   }
 </script>
 <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
